@@ -36,6 +36,18 @@ module OpenTox
       return array.size % 2 == 1 ? array[m_pos] : (array[m_pos-1] + array[m_pos])/2
     end
   
+    def self.classification?(object)
+      !object.to_s.strip.match(TRUE_REGEXP).nil? or !object.to_s.strip.match(FALSE_REGEXP).nil?
+    end
+
+    def self.is_true?(object)
+      classification?(object) and !object.to_s.strip.match(TRUE_REGEXP).nil?
+    end
+  
+    def self.infinity?(object)
+      object.to_f == 1.0/0
+    end
+
   end
 
 #  ['rubygems', 'rest_client'].each do |r|
