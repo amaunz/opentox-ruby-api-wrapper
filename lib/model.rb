@@ -81,7 +81,7 @@ module OpenTox
    
 		class Lazar < Generic
       
-      attr_accessor :feature_dataset_uri, :effects, :activities, :p_values, :fingerprints, :features
+      attr_accessor :feature_dataset_uri, :effects, :activities, :p_values, :fingerprints, :features , :models
       
 			def initialize
 				@source = "http://github.com/helma/opentox-model"
@@ -92,6 +92,7 @@ module OpenTox
 				@activities = {}
 				@p_values = {}
 				@fingerprints = {}
+        @models = []
 			end
 
 			def save
@@ -109,5 +110,17 @@ module OpenTox
 		`curl -X POST -d 'compound_uri=#{compound_uri}' -H 'Accept:application/x-yaml' #{model_uri}`
       end
 		end
+
+    class LazarBalanced < Lazar
+
+      def initialize
+        super
+				@algorithm = File.join(@@config[:services]["opentox-algorithm"],"lazar-balanced")
+        @models = [] # AM: balanced lazar model uris
+			end
+
+
+    end
+
 	end
 end
